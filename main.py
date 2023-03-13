@@ -1,19 +1,78 @@
 import pyrogram
 from pyrogram import Client, filters
 from pyrogram.errors import UserAlreadyParticipant, InviteHashExpired
+from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery, InputMediaVideo
 
 import time
 import os
 import threading
 
-bot_token = os.environ.get("TOKEN", "") 
-api_hash = os.environ.get("HASH", "") 
-api_id = os.environ.get("ID", "")
-ss = os.environ.get("STRING", "")
+bot_token = os.environ.get("TOKEN", "5893575537:AAHmT8eCW2VJFrSPfnG_vKV2HL_ExOsxjJc") 
+api_hash = os.environ.get("HASH", "82fd1b4d334c4b813572cb0b1fcc299d") 
+api_id = os.environ.get("ID", "21886784")
+ss = os.environ.get("STRING", "BQBw5aCrAUdPgX0-01p0ycErSUP-JVJeSv1O92S_gswcxE0SRYHeTDE-sGJM5RtDSl5_vHWAIwSyfuWAE0Z6oMUMLFPgNmcCt-nID6EsvYmHPf8VFJ0Qv1iSaSckdg-0Y0pW_AK9OMjaX2HPLDt5aVQLBTfrexbWPGjcxR3C2qFCuONXfgG199h7UGFm7XDoloJ4I_6bXrOVvPYkPumyleBL7dH731WVSeJfwjFsVQj-J067E-WYsNE0KsGRoBn2WEd9H4LvD0ftK_EgJU7h-7EXFbV1LcjTU_6QZbJ2dMm69-skUgXBrNRRuSi17kly662yqeH0dH3BqJxIVT9hHxL2AAAAAVfems0A")
 bot = Client("mybot",api_id=api_id,api_hash=api_hash,bot_token=bot_token)
 acc = Client("myacc",api_id=api_id,api_hash=api_hash,session_string=ss)
 
 
+
+
+
+@bot.on_message(filters.command("start") & filters.private)
+async def start(client: Client, message: Message):
+       m = message.chat.id
+       user = message.from_user.mention
+       await message.reply(f"""**• هلا والله عيني {user}
+
+- انا بوت احمل لك اي منشور مقيد المحتوى !
+- احمل من القنوات والقروبات وبكل الصيغ سواء ملصق او صوره او صوت او فيديو وكل شي 
+- فقط ارسل رابط المنشور المراد تحميله**""",
+       disable_web_page_preview=True,
+       reply_markup=InlineKeyboardMarkup(
+                    [
+                       [
+                            InlineKeyboardButton("• شرح الاستخدام •", callback_data='test'),
+                        ],[
+                            InlineKeyboardButton("مطور البوت",user_id=2089102006)
+                        ]
+                    ]
+                )
+            )
+
+@bot.on_callback_query(filters.regex("test"))
+async def var(_, query: CallbackQuery):
+      
+    await query.edit_message_text("""**• شرح الاستخدام ↓**[ㅤ ](https://telegra.ph/file/3f991cf109e90c025f35a.mp4)""",
+       reply_markup=InlineKeyboardMarkup(
+                    [
+                       [
+                            InlineKeyboardButton("رجوع", callback_data='back'),
+
+                        ]
+                    ]
+                )
+            )
+
+@bot.on_callback_query(filters.regex("back"))
+async def back(_, query: CallbackQuery):
+      
+    await query.edit_message_text("""**• هلا والله عيني 
+    
+- انا بوت احمل لك اي منشور مقيد المحتوى !
+- احمل من القنوات والقروبات وبكل الصيغ سواء ملصق او صوره او صوت او فيديو وكل شي 
+- فقط ارسل رابط المنشور المراد تحميله**""",
+       reply_markup=InlineKeyboardMarkup(
+                    [
+                       [
+                            InlineKeyboardButton("• شرح الاستخدام •", callback_data='test'),
+                        ],[
+                            InlineKeyboardButton("مطور البوت",user_id=2089102006)
+                        ]
+                    ]
+                )
+            )
+    
+    
 # download status
 def downstatus(statusfile,message):
     while True:
@@ -175,4 +234,5 @@ def save(client: pyrogram.client.Client, message: pyrogram.types.messages_and_me
 
 
 # infinty polling
+print("Done !")
 bot.run()
