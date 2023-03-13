@@ -149,7 +149,7 @@ async def start(client: Client, message: Message):
 @bot.on_callback_query(filters.regex("test"))
 async def var(_, query: CallbackQuery):
       
-    await query.edit_message_text("""**• شرح الاستخدام ↓**[ㅤ ](https://telegra.ph/file/3f991cf109e90c025f35a.mp4)""",
+    await query.edit_message_text("""**• شرح الاستخدام ↓**[ㅤ ](https://telegra.ph/file/bee49be69e475975b4bb1.mp4)""",
        reply_markup=InlineKeyboardMarkup(
                     [
                        [
