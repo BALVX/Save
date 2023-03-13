@@ -1,13 +1,20 @@
 import pyrogram
 from pyrogram import Client, filters
-from pyrogram.errors import UserAlreadyParticipant, InviteHashExpired
-from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery, InputMediaVideo
+from pyrogram.errors import UserAlreadyParticipant, InviteHashExpired, FloodWait
+from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery, ReplyKeyboardMarkup, ReplyKeyboardRemove 
+from pyrogram import __version__ as pyrover
+from typing import Dict, List, Union
+from motor.motor_asyncio import AsyncIOMotorClient as _mongo_client_
+from pymongo import MongoClient
 
 import time
 import os
 import threading
+import asyncio
 
-bot_token = os.environ.get("TOKEN", "5893575537:AAHmT8eCW2VJFrSPfnG_vKV2HL_ExOsxjJc") 
+
+
+bot_token = os.environ.get("TOKEN", "5893575537:AAFNhlIFWpdwLPTzGd8QQxf1gILkdGrB8P8")
 api_hash = os.environ.get("HASH", "82fd1b4d334c4b813572cb0b1fcc299d") 
 api_id = os.environ.get("ID", "21886784")
 ss = os.environ.get("STRING", "BQBw5aCrAUdPgX0-01p0ycErSUP-JVJeSv1O92S_gswcxE0SRYHeTDE-sGJM5RtDSl5_vHWAIwSyfuWAE0Z6oMUMLFPgNmcCt-nID6EsvYmHPf8VFJ0Qv1iSaSckdg-0Y0pW_AK9OMjaX2HPLDt5aVQLBTfrexbWPGjcxR3C2qFCuONXfgG199h7UGFm7XDoloJ4I_6bXrOVvPYkPumyleBL7dH731WVSeJfwjFsVQj-J067E-WYsNE0KsGRoBn2WEd9H4LvD0ftK_EgJU7h-7EXFbV1LcjTU_6QZbJ2dMm69-skUgXBrNRRuSi17kly662yqeH0dH3BqJxIVT9hHxL2AAAAAVfems0A")
@@ -15,11 +22,111 @@ bot = Client("mybot",api_id=api_id,api_hash=api_hash,bot_token=bot_token)
 acc = Client("myacc",api_id=api_id,api_hash=api_hash,session_string=ss)
 
 
+OWNER = 2089102006
+MONGO = "mongodb+srv://safe:safe@cluster0.ijsgkme.mongodb.net/?retryWrites=true&w=majority"
+_mongo_async_ = _mongo_client_(MONGO)
+_mongo_sync_ = MongoClient(MONGO)
+mongodb = _mongo_async_.twsl
+pymongodb = _mongo_sync_.twsl
+admins = [
+          [
+             ("الاحصائيات"),
+             ("اذاعه")
+          ],
+          [
+             ("نسخه")
+          ]
+]  
+
+
+usersdb = mongodb.userstats
+
+async def is_served_user(user_id: int) -> bool:
+    user = await usersdb.find_one({"user_id": user_id})
+    if not user:
+        return False
+    return True
+
+async def get_served_users() -> list:
+    users_list = []
+    async for user in usersdb.find({"user_id": {"$gt": 0}}):
+        users_list.append(user)
+    return users_list
+    
+async def add_served_user(user_id: int):
+    is_served = await is_served_user(user_id)
+    if is_served:
+        return
+    return await usersdb.insert_one({"user_id": user_id})
+    
+    
+    
+    
+
+    
+    
+@bot.on_message(filters.command("stats") & filters.user(OWNER))
+async def stats(client, message):
+       m = await message.reply("**ثواني**")
+       stats = len(await get_served_users())
+       await m.edit(f"**- احصائيات المستخدمين : {stats}**")
+           
 
 
 
+
+@bot.on_message(filters.command("اذاعه", ["$", ""]) & filters.user(OWNER))
+async def broadcast(c: Client, message: Message):
+    if not message.reply_to_message:
+        pass
+    else:
+        x = message.reply_to_message_id
+        y = message.chat.id
+        sent = 0
+        chats = []
+        schats = await get_served_users()
+        for user in schats:
+            chats.append(int(user["user_id"]))
+        for i in chats:
+            try:
+                m = await c.forward_messages(i, y, x)
+                await asyncio.sleep(0.3)
+                sent += 1
+            except Exception:
+                pass
+        await message.reply_text(f"✶ تمت الاذاعه إلى {sent} مستخدم في البوت.")
+        return
+    if len(message.command) < 2:
+        await message.reply_text(
+            "**مثال**:\n\nاذاعه (`رسالتك`) او (`الرد على رساله`)"
+        )
+        return
+    text = message.text.split(None, 1)[1]
+    sent = 0
+    chats = []
+    schats = await get_served_users()
+    for user in schats:
+        chats.append(int(user["user_id"]))
+    for i in chats:
+        try:
+            m = await c.send_message(i, text=text)
+            await asyncio.sleep(0.3)
+            sent += 1
+        except Exception:
+            pass
+    await message.reply_text(f"✶ تمت الاذاعه إلى {sent} مستخدم في البوت.")
+    
+    
+
+
+             
 @bot.on_message(filters.command("start") & filters.private)
 async def start(client: Client, message: Message):
+       user_id = message.from_user.id
+       if not await is_served_user(user_id):
+         await add_served_user(user_id)
+         stats = len(await get_served_users())
+         await bot.send_message(OWNER, f"**-» قام شخص جديد بالدخول الى البوت الخاص بك :\n\n- -» اسمه : {message.from_user.mention}\n-» معرفه : @{message.from_user.username}\n-» ايديه : {message.from_user.id}\n➖ أصبح عدد مستخدمين البوت : ~ {stats}**")
        m = message.chat.id
        user = message.from_user.mention
        await message.reply(f"""**• هلا والله عيني {user}
@@ -72,6 +179,10 @@ async def back(_, query: CallbackQuery):
                 )
             )
     
+    
+    
+
+ 
     
 # download status
 def downstatus(statusfile,message):
@@ -207,7 +318,7 @@ def save(client: pyrogram.client.Client, message: pyrogram.types.messages_and_me
         else:
             username = datas[-2]
             msg  = bot.get_messages(username,msgid)
-    
+            
             if "Document" in str(msg):
                 bot.send_document(message.chat.id, msg.document.file_id, caption=msg.caption, caption_entities=msg.caption_entities, reply_to_message_id=message.id)
 
