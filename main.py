@@ -30,11 +30,11 @@ mongodb = _mongo_async_.twsl
 pymongodb = _mongo_sync_.twsl
 admins = [
           [
-             ("الاحصائيات"),
-             ("اذاعه")
+‎             ("الاحصائيات"),
+‎             ("اذاعه")
           ],
           [
-             ("نسخه")
+‎             ("نسخه")
           ]
 ]  
 
@@ -98,7 +98,7 @@ async def broadcast(c: Client, message: Message):
         return
     if len(message.command) < 2:
         await message.reply_text(
-            "**مثال**:\n\nاذاعه (`رسالتك`) او (`الرد على رساله`)"
+‎            "**مثال**:\n\nاذاعه (`رسالتك`) او (`الرد على رساله`)"
         )
         return
     text = message.text.split(None, 1)[1]
@@ -131,9 +131,9 @@ async def start(client: Client, message: Message):
        user = message.from_user.mention
        await message.reply(f"""**• هلا والله عيني {user}
 
-- انا بوت احمل لك اي منشور مقيد المحتوى !
-- احمل من القنوات والقروبات وبكل الصيغ سواء ملصق او صوره او صوت او فيديو وكل شي 
-- فقط ارسل رابط المنشور المراد تحميله**""",
+‎- انا بوت احمل لك اي منشور مقيد المحتوى !
+‎- احمل من القنوات والقروبات وبكل الصيغ سواء ملصق او صوره او صوت او فيديو وكل شي 
+‎- فقط ارسل رابط المنشور المراد تحميله**""",
        disable_web_page_preview=True,
        reply_markup=InlineKeyboardMarkup(
                     [
@@ -165,9 +165,9 @@ async def back(_, query: CallbackQuery):
       
     await query.edit_message_text("""**• هلا والله عيني 
     
-- انا بوت احمل لك اي منشور مقيد المحتوى !
-- احمل من القنوات والقروبات وبكل الصيغ سواء ملصق او صوره او صوت او فيديو وكل شي 
-- فقط ارسل رابط المنشور المراد تحميله**""",
+‎- انا بوت احمل لك اي منشور مقيد المحتوى !
+‎- احمل من القنوات والقروبات وبكل الصيغ سواء ملصق او صوره او صوت او فيديو وكل شي 
+‎- فقط ارسل رابط المنشور المراد تحميله**""",
        reply_markup=InlineKeyboardMarkup(
                     [
                        [
@@ -195,7 +195,7 @@ def downstatus(statusfile,message):
         with open(statusfile,"r") as downread:
             txt = downread.read()
         try:
-            bot.edit_message_text(message.chat.id, message.id, f"__Downloaded__ : **{txt}**")
+            bot.edit_message_text(message.chat.id, message.id, f"- جاري التحميل : **{txt}**")
             time.sleep(10)
         except:
             time.sleep(5)
@@ -212,7 +212,7 @@ def upstatus(statusfile,message):
         with open(statusfile,"r") as upread:
             txt = upread.read()
         try:
-            bot.edit_message_text(message.chat.id, message.id, f"__Uploaded__ : **{txt}**")
+            bot.edit_message_text(message.chat.id, message.id, f"**- جاري التحميل ..** : **{txt}**")
             time.sleep(10)
         except:
             time.sleep(5)
@@ -233,11 +233,11 @@ def save(client: pyrogram.client.Client, message: pyrogram.types.messages_and_me
         try:
             with acc:
                 acc.join_chat(message.text)
-            bot.send_message(message.chat.id,"**Chat Joined**", reply_to_message_id=message.id)
+            bot.send_message(message.chat.id,"**- ابشر دخلت بنجاح ..**", reply_to_message_id=message.id)
         except UserAlreadyParticipant:
-            bot.send_message(message.chat.id,"**Chat alredy Joined**", reply_to_message_id=message.id)
+            bot.send_message(message.chat.id,"**- ياحلو انا فيه من زمان ..**", reply_to_message_id=message.id)
         except InviteHashExpired:
-            bot.send_message(message.chat.id,"**Invalid Link**", reply_to_message_id=message.id)
+            bot.send_message(message.chat.id,"**- تأكد من الرابط ياحلو ..**", reply_to_message_id=message.id)
     
     # getting message
     elif "https://t.me/" in message.text:
@@ -256,7 +256,7 @@ def save(client: pyrogram.client.Client, message: pyrogram.types.messages_and_me
                     bot.send_message(message.chat.id, msg.text, entities=msg.entities, reply_to_message_id=message.id)
                     return
 
-                smsg = bot.send_message(message.chat.id, '__Downloading__', reply_to_message_id=message.id)
+                smsg = bot.send_message(message.chat.id, '** جاري التحميل ..**', reply_to_message_id=message.id)
                 dosta = threading.Thread(target=lambda:downstatus(f'{message.id}downstatus.txt',smsg),daemon=True)
                 dosta.start()
                 file = acc.download_media(msg, progress=progress, progress_args=[message,"down"])
@@ -345,5 +345,5 @@ def save(client: pyrogram.client.Client, message: pyrogram.types.messages_and_me
 
 
 # infinty polling
-print("Done !")
+print("تم التشغيل !")
 bot.run()
