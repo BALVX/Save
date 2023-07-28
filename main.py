@@ -28,15 +28,7 @@ _mongo_async_ = _mongo_client_(MONGO)
 _mongo_sync_ = MongoClient(MONGO)
 mongodb = _mongo_async_.twsl
 pymongodb = _mongo_sync_.twsl
-admins = [
-          [
-‎             ("الاحصائيات"),
-‎             ("اذاعه")
-          ],
-          [
-‎             ("نسخه")
-          ]
-]  
+
 
 
 usersdb = mongodb.userstats
