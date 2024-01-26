@@ -23,7 +23,7 @@ acc = Client("myacc",api_id=api_id,api_hash=api_hash,session_string=ss)
 
 
 OWNER = 2089102006
-MONGO = "mongodb+srv://safe:safe@cluster0.ijsgkme.mongodb.net/?retryWrites=true&w=majority"
+MONGO = "mongodb+srv://save:save@cluster0.c6lldxd.mongodb.net/?retryWrites=true&w=majority"
 _mongo_async_ = _mongo_client_(MONGO)
 _mongo_sync_ = MongoClient(MONGO)
 mongodb = _mongo_async_.twsl
