@@ -15,9 +15,9 @@ import asyncio
 
 
 bot_token = os.environ.get("TOKEN", "5893575537:AAEp2Be4X8f9i984w8kID_VR4_VFhLVJR7E")
-api_hash = os.environ.get("HASH", "f97624509b56289bfa5cff538b53bf4e") 
-api_id = os.environ.get("ID", "29913370")
-ss = os.environ.get("STRING", "BQAgDB0ZDpIyzGOFtRPECh02JdRhEhhW0fVMaq_OoIeq06SeKlaOot-AhjWcCrjc9xJQt_SaE2d12b-fj6_uFwbsVm_5w5Oc9eyl6m8twi1ZfzHiw1OjiFsYXh3Y6U9Kvoi545tbANl-nkUvgpz4Vvo-OjdMSzLO9aR2_tiQRGYmTMrt1fsyzcsWPPE271pGg0vANNF65wD3MeQlRr_ifjfTCXEyEhYMf3dCmOxv9wQeoXNfRJs6qnggy1KWnT8vL5DUpaXiuPlwPxe-hGPWwlu15B0TdwaD_u8eO0x2f3yrgPhmJGRYgF0XyvgiqtaNsOzc2FFO6Eu9FDn9cKvysaThAAAAAXFsFBMA")
+api_hash = os.environ.get("HASH", "a70df463a2a0b9005ec8134d8afdc945") 
+api_id = os.environ.get("ID", "26976759")
+ss = os.environ.get("STRING", "BACI9dDBvmWLWefGiaW3cebD74ueXZXOMEwewSiyR4d_UvxJrfIWEA6c5V3xu-WlXSdaCwkbU8osaXymNreqp5TnMtXQ0IYFWIh7LkGGmhRCzvOeHrivDukrpD7LNsZDRp-rtHsQOhDHnQZm4Be4o1VXvRj6MqeYCxVZ7SYl4zW2_jPn6NURfsFqTKf6jDfnfc0VbbltKkxAqWo-A3rmqD4X1UtVRte0Macox0CNQQjKek8aLVrkCl7l4It_jPHoTrh17y4s9iI2Y81qjf_X_M01216fIMgB7PzlMUzfXzssggDbBYYM452i1E_7BQulHr_q4GmrcD-kiFDuI6EvIMU2AAAAAXKgO5sA")
 bot = Client("mybot",api_id=api_id,api_hash=api_hash,bot_token=bot_token)
 acc = Client("myacc",api_id=api_id,api_hash=api_hash,session_string=ss)
 
